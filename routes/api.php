@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('store')
+Route::prefix('stores')
     ->controller(\App\Http\Controllers\StoreController::class)
     ->group(function () {
-        Route::post('/user/{user_id}', 'create');
+        Route::get('/user/{id}', 'show');
+        Route::post('/', 'store');
     });
