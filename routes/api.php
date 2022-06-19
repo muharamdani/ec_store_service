@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('stores')
-    ->controller(\App\Http\Controllers\StoreController::class)
+    ->controller(StoreController::class)
     ->group(function () {
-        Route::get('/user/{id}', 'show');
+        Route::get('/user/{id}', 'showByUser');
+        Route::get('/{id}', 'show');
+        Route::post('/get_stores', 'getStores');
         Route::post('/', 'store');
     });
