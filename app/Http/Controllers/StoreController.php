@@ -10,6 +10,10 @@ class StoreController extends Controller
     public function index()
     {
         // Paginate Stores result, default 10 data/page
+        if (env('API_GATEWAY_URI')) {
+            return Store::paginate(request()->get('per_page', 10))
+                ->setPath(env('API_GATEWAY_URI').'/api/stores');
+        }
         return Store::paginate(request()->get('per_page', 10));
     }
 
