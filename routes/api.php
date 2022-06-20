@@ -21,4 +21,5 @@ Route::prefix('stores')
         Route::get('/{id}', 'show');
         Route::get('/user/{id}', 'showByUser');
         Route::post('/', 'store');
+        Route::put('/{id}', 'update');
     });

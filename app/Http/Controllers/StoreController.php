@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateStoreRequest;
+use App\Http\Requests\UpdateStoreRequest;
 use App\Models\Store;
 
 class StoreController extends Controller
@@ -53,5 +54,20 @@ class StoreController extends Controller
     public function showByUser($id)
     {
         return Store::where('user_id', $id)->first();
+    }
+
+    public function update(UpdateStoreRequest $request, $id)
+    {
+        $data = $request->validated();
+
+        $store = Store::find($id);
+        if (!$store) {
+            return $this->errorMessage("Store not found", 404);
+        }
+
+        $store->update($data);
+        $store->save();
+
+        return $store;
     }
 }
