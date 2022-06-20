@@ -17,8 +17,8 @@ use App\Http\Controllers\StoreController;
 Route::prefix('stores')
     ->controller(StoreController::class)
     ->group(function () {
-        Route::get('/user/{id}', 'showByUser');
+        Route::get('/', 'index');
         Route::get('/{id}', 'show');
-        Route::post('/get_stores', 'getStores');
+        Route::get('/user/{id}', 'showByUser');
         Route::post('/', 'store');
     });

@@ -2,25 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateStoreRequest;
 use App\Models\Store;
-use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
-    public function getStores(Request $request)
+    public function index()
     {
-        $storeIds = $request->get('store_ids');
-        if (!is_array($storeIds)) {
-            $storeIds = json_decode($storeIds);
-        }
-        return Store::whereIn('id', $storeIds)->get();
+        // Paginate Stores result, default 10 data/page
+        return Store::paginate(request()->get('per_page', 10));
     }
 
-    public function store(Request $request)
+    public function store(CreateStoreRequest $request)
     {
+        $req = $request->validated();
+
+        // Check user availability
+        $user_id = $req['user_id'];
+        $name = $req['name'];
+        $store = Store::where('user_id', $user_id)->first();
+
+        if ($store) {
+            return response()->json([
+                'message' => 'Store for that user is already exist'
+            ], 403);
+        }
+
         return Store::create([
-            'user_id' => $request->user_id,
-            'name' => $request->name,
+            'user_id' => $user_id,
+            'name' => $name,
             'description' => null,
             'rate'=> 0,
             'total_product' => 0
